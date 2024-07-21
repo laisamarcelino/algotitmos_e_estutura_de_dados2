@@ -220,7 +220,7 @@ void maxHeapifySR(int vetor[], size_t i, size_t tam, uint64_t *numComparacoes){
 
 void contruirMaxHeapSR(int vetor[], size_t tam, uint64_t *numComparacoes){
     for (size_t i = i = tam >> 1; i >= 1; i--)
-        maxHeapify(vetor, i, tam, numComparacoes); 
+        maxHeapifySR(vetor, i, tam, numComparacoes); 
 }
 
 /* ------------ Funções principais ------------  */

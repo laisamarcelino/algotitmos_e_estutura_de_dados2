@@ -9,18 +9,54 @@ void imprime_vetor(int vetor[], size_t tamVetor){
     }
 }
 
-void cria_vetor(int vetor[], size_t tamVetor){ 
-    for(size_t i=0; i<tamVetor; i++){
+void criar_vetor_decrescente(int vetor[], size_t tamVetor){ 
+    for(size_t i = 0; i < tamVetor; i++){
         vetor[i] = tamVetor-i;
     }
 }
 
-/* ------------------------------------------------------------- */
+int aleat (int min, int max){ 
+	return min + rand() % (max+1 - min);
+}
+
+void criar_vetor_aleatorio(int vetor[], size_t tamVetor){ 
+    for(size_t i = 0; i < tamVetor; i++){
+        vetor[i] = aleat(0, tamVetor);
+    }
+}
+
+void criar_vetor_crescente(int vetor[], size_t tamVetor){ 
+    for(size_t i = 0; i < tamVetor; i++){
+        vetor[i] = i;
+    }
+}
+
+int criar_vetor(int vetor[], size_t tamVetor, int caso){
+    switch (caso) {
+    case 1:
+        criar_vetor_decrescente(vetor, tamVetor);
+        return 1;
+    case 2:
+        criar_vetor_aleatorio(vetor, tamVetor);
+        return 2;
+    case 3:
+        criar_vetor_crescente(vetor, tamVetor);
+        return 3;
+    default:
+        break;
+    }
+    return 0;
+}
 
 int main() {
     char nome[MAX_CHAR];
-    size_t tamVetor = 10;
+    size_t tamVetor=10;
     uint64_t numComp;
+    clock_t start, end;  
+    double total;
+    int caso;
+    
+    srand(0); /*inicia a semente randomica*/
 
     int* vetor = (int*)malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
@@ -31,50 +67,77 @@ int main() {
     getNome(nome);
     printf("Trabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
+    
+    printf("Escolha o tipo de ordenação do vetor\n1: Decrescente\n2: Aleatório\n3: Crescente\n");
+    scanf("%d", &caso);
 
-    printf ("Teste 0: cria vetor decrescente de 100 posições:\n");
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 0: imprime vetor original:\n");
+    criar_vetor(vetor, tamVetor, caso);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 1: ordena vetor com o MergeSort recursivo:\n"); 
+    printf ("Teste 1: Ordena vetor com o MergeSort recursivo:\n"); 
+    start = clock(); 
     numComp = mergeSort(vetor, tamVetor);
-    printf("N° de comparações nlog(2)n = ~ 33.21928 ~ %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 2: ordena vetor com o QuickSort recursivo:\n"); 
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 2: Ordena vetor com o QuickSort recursivo:\n"); 
+    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    start = clock(); 
     numComp = quickSort(vetor, tamVetor);
-    printf("N° de Comparações (n²+n-2)/2 = 54 = %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 3: ordena vetor com o HeapSort recursivo:\n"); 
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 3: Ordena vetor com o HeapSort recursivo:\n"); 
+    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    start = clock(); 
     numComp = heapSort(vetor, tamVetor);
-    printf("N° de Comparações 2nlog(2)n ~ 66.43856 ~ %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 4: ordena vetor com o MergeSort sem recursão:\n");
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 4: Ordena vetor com o MergeSort sem recursão:\n");
+    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    start = clock(); 
     numComp = mergeSortSR(vetor, tamVetor);
-    printf("N° de Comparações nlog(2)n = ~ 33.21928 ~ %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 5: ordena vetor com o QuickSort sem recursão:\n");
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 5: Ordena vetor com o QuickSort sem recursão:\n");
+    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    start = clock(); 
     numComp = quickSortSR(vetor, tamVetor);
-    printf("N° de Comparações (n²+n-2)/2 = 54 = %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de Comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
-    printf ("Teste 6: ordena vetor com o HeapSort sem recursão:\n");
-    cria_vetor(vetor, tamVetor);
+    printf ("Teste 6: Ordena vetor com o HeapSort sem recursão:\n");
+    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    start = clock(); 
     numComp = heapSortSR(vetor, tamVetor);
-    printf("N° de Comparações 2nlog(2)n ~ 66.43856 ~ %ld\n", numComp);
+    end = clock();
+    total = ((double)end - start) / CLOCKS_PER_SEC;
+    printf("N° de Comparações: %ld\n", numComp);
+    printf("Tempo de execução: %f segundos\n", total);
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
