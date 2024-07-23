@@ -76,7 +76,7 @@ int main() {
 
     printf ("Teste 0: imprime vetor original:\n");
     criar_vetor(vetor, tamVetor, caso);
-    /*imprime_vetor(vetor, tamVetor);*/
+    imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
     printf ("Teste 1: Ordena vetor com o MergeSort recursivo:\n"); 
@@ -97,7 +97,7 @@ int main() {
     printf("Tempo de execução: %f segundos\n\n", total);
 
     printf ("Teste 3: Ordena vetor com o HeapSort recursivo:\n"); 
-    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    criar_vetor(vetor, tamVetor, caso);
     start = clock(); 
     numComp = heapSort(vetor, tamVetor);
     end = clock();
@@ -108,7 +108,7 @@ int main() {
     printf ("\n\n");
 
     printf ("Teste 4: Ordena vetor com o MergeSort sem recursão:\n");
-    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    criar_vetor(vetor, tamVetor, caso);
     start = clock(); 
     numComp = mergeSortSR(vetor, tamVetor);
     end = clock();
@@ -130,7 +130,7 @@ int main() {
     printf ("\n\n");
 
     printf ("Teste 6: Ordena vetor com o HeapSort sem recursão:\n");
-    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    criar_vetor(vetor, tamVetor, caso);
     start = clock(); 
     numComp = heapSortSR(vetor, tamVetor);
     end = clock();
