@@ -11,8 +11,6 @@ void getNome(char nome[]) {
 /* a função a seguir retorna o número de GRR*/
 uint32_t getGRR() { return 20243783; }
 
-/* ------------ Funções auxiliares ------------  */
-
 /* Realiza a cópia de um vetor */
 void copiar(int vetor[], int aux[], size_t a, size_t b){
     for(size_t i=0; i<=b-a;i++)
@@ -26,8 +24,6 @@ void trocar(int vetor[], size_t a, size_t b){
     vetor[a] = vetor[b];
     vetor[b] = aux;
 } 
-
-/* ------------ Funções auxiliares do MergeSort ------------  */
 
 /* Mescla dois vetores ordenados gerando um único vetor ordenado */
 void merge(int vetor[], size_t a, size_t m, size_t b, uint64_t* numComparacoes){
@@ -55,7 +51,7 @@ void merge(int vetor[], size_t a, size_t m, size_t b, uint64_t* numComparacoes){
     copiar(vetor, aux, a, b);
 }
 
-/* Realiza a ordenaçao de um vetor a partir dos indices inicial e final*/
+/* Ordenação recursiva de um vetor a partir dos indices inicial e final*/
 void mergeSortAuxiliar(int vetor[], size_t a, size_t b, uint64_t* numComparacoes){
     size_t m;
 
@@ -69,6 +65,7 @@ void mergeSortAuxiliar(int vetor[], size_t a, size_t b, uint64_t* numComparacoes
     merge(vetor, a, m, b, numComparacoes);
 }
 
+/* Ordenação iterativa de um vetor a partir dos indices inicial e final*/
 void mergeSortAuxiliarSR(int vetor[], size_t a, size_t b, uint64_t* numComparacoes){
     struct pilha *p;
     size_t m;
@@ -95,8 +92,7 @@ void mergeSortAuxiliarSR(int vetor[], size_t a, size_t b, uint64_t* numComparaco
     pilha_destroi(&p);   
 }
 
-/* ------------ Funções auxiliares do QuickSort ------------  */
-
+/* Particiona um vetor a partir de um pivô */
 size_t particionar(int vetor[], size_t a, size_t b, uint64_t *numComparacoes){ 
     size_t m = a;
    
@@ -109,24 +105,27 @@ size_t particionar(int vetor[], size_t a, size_t b, uint64_t *numComparacoes){
     }
     trocar(vetor, m, b);
 
-    return m;
+    return m; 
 }
 
+/* Ordenação recursiva de um vetor a partir dos indices inicial e final*/
 void quickSortAuxiliar(int vetor[], size_t a, size_t b, uint64_t *numComparacoes){
     size_t m;
 
     if (a >= b)
         return;
-    
-    m = particionar(vetor, a, b, numComparacoes); 
+
     (*numComparacoes)++;
+    m = particionar(vetor, a, b, numComparacoes); 
+
     /* Verifica para evitar acesso inválido a memória*/
     if (m > 0)
         quickSortAuxiliar(vetor, a, m-1, numComparacoes);
     quickSortAuxiliar(vetor, m+1, b, numComparacoes);
-    return;
+
 }
 
+/* Ordenação iterativa de um vetor a partir dos indices inicial e final*/
 void quickSortAuxiliarSR(int vetor[], size_t a, size_t b, uint64_t *numComparacoes){
     struct pilha *p;
     size_t m;
@@ -155,12 +154,14 @@ void quickSortAuxiliarSR(int vetor[], size_t a, size_t b, uint64_t *numComparaco
 
 /* ------------ Funções auxiliares do HeapSort ------------ */
 
+/* Retorna o indice do filho esquerdo de uma heap */
 size_t indiceFilhoEsquerdo(size_t i){
-    return i << 1; // deslocamento de bits equivalente a i*2 
+    return i << 1; 
 }
 
+/* Retorna o indice do filho direito de uma heap */
 size_t indiceFilhoDireito(size_t i){
-    return (i << 1) + 1; // deslocamento de bits equivalente a i*2+1 
+    return (i << 1) + 1; 
 }
 
 void maxHeapify(int vetor[], size_t i, size_t tam, uint64_t *numComparacoes){
@@ -186,6 +187,7 @@ void maxHeapify(int vetor[], size_t i, size_t tam, uint64_t *numComparacoes){
     }
 }
 
+/* Constroi uma max heap */
 void contruirMaxHeap(int vetor[], size_t tam, uint64_t *numComparacoes){
     for (size_t i = tam >> 1; i >= 1; i--)
         maxHeapify(vetor, i, tam, numComparacoes);
@@ -202,8 +204,6 @@ void maxHeapifySR(int vetor[], size_t i, size_t tam, uint64_t *numComparacoes){
         (*numComparacoes)++;
         if (l <= tam && vetor[l] > vetor[i])
             maior = l;
-        else
-            maior = i;
 
         (*numComparacoes)++;
         if (r <= tam && vetor[r] > vetor[maior])
@@ -219,7 +219,7 @@ void maxHeapifySR(int vetor[], size_t i, size_t tam, uint64_t *numComparacoes){
 }
 
 void contruirMaxHeapSR(int vetor[], size_t tam, uint64_t *numComparacoes){
-    for (size_t i = i = tam >> 1; i >= 1; i--)
+    for (size_t i = tam >> 1; i >= 1; i--)
         maxHeapifySR(vetor, i, tam, numComparacoes); 
 }
 
@@ -242,10 +242,10 @@ uint64_t quickSort(int vetor[], size_t tam) {
 uint64_t heapSort(int vetor[], size_t tam) {
     uint64_t numComparacoes=0;
 
-    contruirMaxHeap(vetor, tam-1, &numComparacoes);
-    for (size_t i = tam-1; i >= 1; i--){
+    contruirMaxHeap(vetor, tam, &numComparacoes);
+    for (size_t i = tam-1; i > 0; i--){
         trocar(vetor, 0, i);
-        maxHeapify(vetor, 0, i-1, &numComparacoes);
+        maxHeapify(vetor, 0, i, &numComparacoes);
     }
     return numComparacoes;
 }

@@ -9,28 +9,27 @@ void imprime_vetor(int vetor[], size_t tamVetor){
     }
 }
 
+/* Cria um vetor ordenado de tamVetor a 0 */
 void criar_vetor_decrescente(int vetor[], size_t tamVetor){ 
     for(size_t i = 0; i < tamVetor; i++){
         vetor[i] = tamVetor-i;
     }
 }
-
-int aleat (int min, int max){ 
-	return min + rand() % (max+1 - min);
-}
-
+/* Cria um vetor de números aleatórios entre 0 e 100 */
 void criar_vetor_aleatorio(int vetor[], size_t tamVetor){ 
     for(size_t i = 0; i < tamVetor; i++){
-        vetor[i] = aleat(0, tamVetor);
+        vetor[i] = rand() % 100;
     }
 }
 
+/* Cria um vetor ordenado de 0 a tamVetor */
 void criar_vetor_crescente(int vetor[], size_t tamVetor){ 
     for(size_t i = 0; i < tamVetor; i++){
         vetor[i] = i;
     }
 }
 
+/* Cria um vetor conforme o caso selecionado */
 int criar_vetor(int vetor[], size_t tamVetor, int caso){
     switch (caso) {
     case 1:
@@ -50,7 +49,7 @@ int criar_vetor(int vetor[], size_t tamVetor, int caso){
 
 int main() {
     char nome[MAX_CHAR];
-    size_t tamVetor=10;
+    size_t tamVetor;
     uint64_t numComp;
     clock_t start, end;  
     double total;
@@ -58,6 +57,10 @@ int main() {
     
     srand(0); /*inicia a semente randomica*/
 
+    printf("Insira o tamanho do vetor:\n");
+    scanf("%lu", &tamVetor);
+
+    /* Aloca memória para o vetor */
     int* vetor = (int*)malloc(tamVetor * sizeof(int));
     if (vetor == NULL) {
         printf("Falha fatal. Impossível alocar memoria.");
@@ -67,13 +70,13 @@ int main() {
     getNome(nome);
     printf("Trabalho de %s\n", nome);
     printf("GRR %u\n", getGRR());
-    
+
     printf("Escolha o tipo de ordenação do vetor\n1: Decrescente\n2: Aleatório\n3: Crescente\n");
     scanf("%d", &caso);
 
     printf ("Teste 0: imprime vetor original:\n");
     criar_vetor(vetor, tamVetor, caso);
-    imprime_vetor(vetor, tamVetor);
+    /*imprime_vetor(vetor, tamVetor);*/
     printf ("\n\n");
 
     printf ("Teste 1: Ordena vetor com o MergeSort recursivo:\n"); 
@@ -82,20 +85,16 @@ int main() {
     end = clock();
     total = ((double)end - start) / CLOCKS_PER_SEC;
     printf("N° de comparações: %ld\n", numComp);
-    printf("Tempo de execução: %f segundos\n", total);
-    imprime_vetor(vetor, tamVetor);
-    printf ("\n\n");
+    printf("Tempo de execução: %f segundos\n\n", total);
 
     printf ("Teste 2: Ordena vetor com o QuickSort recursivo:\n"); 
-    criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
+    criar_vetor(vetor, tamVetor, caso);
     start = clock(); 
     numComp = quickSort(vetor, tamVetor);
     end = clock();
     total = ((double)end - start) / CLOCKS_PER_SEC;
     printf("N° de comparações: %ld\n", numComp);
-    printf("Tempo de execução: %f segundos\n", total);
-    imprime_vetor(vetor, tamVetor);
-    printf ("\n\n");
+    printf("Tempo de execução: %f segundos\n\n", total);
 
     printf ("Teste 3: Ordena vetor com o HeapSort recursivo:\n"); 
     criar_vetor(vetor, tamVetor, caso);imprime_vetor(vetor, tamVetor);
@@ -141,6 +140,7 @@ int main() {
     imprime_vetor(vetor, tamVetor);
     printf ("\n\n");
 
+    /*Libera memória alocada para o vetor */
     free(vetor);
 
     return 0;
