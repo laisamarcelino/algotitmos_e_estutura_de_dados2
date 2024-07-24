@@ -80,13 +80,16 @@ uint64_t mergeSort(int vetor[], size_t tam) {
 }
 /* Ordenação iterativa de um vetor a partir do tam - bottom-up mergeSort*/
 uint64_t mergeSortSR(int vetor[], size_t tam) {
-    uint64_t numComp=0;
+    uint64_t numComp = 0;
     size_t m, fim_sub; 
 
     for (size_t tam_sub = 1; tam_sub < tam; tam_sub *= 2) {
         for (size_t ini_sub = 0; ini_sub < tam - tam_sub; ini_sub += tam_sub + tam_sub) {
             m = ini_sub + tam_sub - 1;
-            fim_sub = (ini_sub + tam_sub + tam_sub - 1 < tam - 1) ? ini_sub + tam_sub + tam_sub - 1 : tam - 1;
+            if (ini_sub + tam_sub + tam_sub - 1 < tam - 1)
+                fim_sub = ini_sub + tam_sub + tam_sub - 1;
+            else
+                fim_sub = tam - 1;
             merge(vetor, ini_sub, m, fim_sub, &numComp);
         }
     }
@@ -119,7 +122,7 @@ void quickSortAuxiliar(int vetor[], size_t a, size_t b, uint64_t *numComp){
     if (a >= b)
         return;
 
-    (*numComp)++;
+    /*(*numComp)++;*/
     m = particionar(vetor, a, b, numComp); 
 
     /* Verifica para evitar acesso inválido a memória*/
@@ -185,19 +188,16 @@ void maxHeapify(int vetor[], size_t i, size_t tam, uint64_t *numComp){
     l = indiceFilhoEsquerdo(i);
     r = indiceFilhoDireito(i);
 
-   
-    if (l <= tam-1 && vetor[l] > vetor[i]){
-        (*numComp)++;
+    (*numComp)++;
+    if (l <= tam-1 && vetor[l] > vetor[i])
         maior = l;
-    }
 
     else 
         maior = i;
 
-    if (r <= tam-1 && vetor[r] > vetor[maior]){
-        (*numComp)++;
+    (*numComp)++;
+    if (r <= tam-1 && vetor[r] > vetor[maior])
         maior = r;
-    }
   
     if (maior != i){
         trocar(vetor, i, maior);
@@ -240,7 +240,6 @@ void maxHeapifySR(int vetor[], size_t i, size_t tam, uint64_t *numComp){
         if (r <= tam-1 && vetor[r] > vetor[maior])
             maior = r;
             
-        (*numComp)++;
         if (maior != i){
             trocar(vetor, i, maior);
             i = maior;
@@ -255,7 +254,7 @@ void contruirMaxHeapSR(int vetor[], size_t tam, uint64_t *numComp){
         maxHeapifySR(vetor, i, tam, numComp);
 }
 
-/* Ordena iterativa de um vetor a partir do tam */
+/* Ordenação iterativa de um vetor a partir do tam */
 uint64_t heapSortSR(int vetor[], size_t tam) {
     uint64_t numComp=0;
 
