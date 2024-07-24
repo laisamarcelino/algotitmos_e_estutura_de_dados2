@@ -2,7 +2,8 @@
 #define _pilha_t_H
 
 struct nodo {
-    size_t chave;
+    size_t inicio;
+    size_t fim;
     struct nodo *prox;
 };
 
@@ -21,24 +22,17 @@ struct pilha *pilha_cria ();
 void pilha_destroi (struct pilha **pilha);
 
 /* 
- * Insere dado na pilha (politica LIFO). Retorna 1
+ * Insere indice do inicio e fim na pilha (politica LIFO). Retorna 1
  * em caso de sucesso e 0 em caso de falha.
 */
-size_t empilhar (struct pilha *pilha, size_t dado);
+size_t empilhar (struct pilha *pilha, size_t inicio, size_t fim);
 
 /* 
  * Remove o topo (politica LIFO) e retorna o elemento 
  * no parametro dado. A funcao retorna 1 em caso de 
  * sucesso e 0 no caso da pilha estar vazia.
 */
-size_t desempilhar (struct pilha *pilha, size_t *dado);
- 
-/* 
- * Similar ao pop (desempilhar), mas retorna o elemento dado sem remove-lo. 
- * A funcao retorna 1 em caso de sucesso e 0 no caso 
- * da pilha estar vazia.
-*/
-size_t pilha_topo (struct pilha *pilha, size_t *dado); 
+size_t desempilhar (struct pilha *pilha, size_t *inicio, size_t *fim);
 
 /* Retorna o numero de elementos da pilha, que pode ser 0. */
 size_t pilha_tamanho (struct pilha *pilha);

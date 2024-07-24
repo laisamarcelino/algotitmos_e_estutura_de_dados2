@@ -6,7 +6,7 @@
 struct pilha *pilha_cria (){
     struct pilha *pilha;
 
-	pilha = malloc(sizeof(struct pilha));
+	pilha = (struct pilha*)malloc(sizeof(struct pilha));
 
 	if (pilha == NULL)
 		return NULL; 
@@ -30,54 +30,43 @@ void pilha_destroi (struct pilha **pilha){
 	(*pilha) = NULL;
 }
 
-size_t empilhar (struct pilha *pilha, size_t dado){
+size_t empilhar(struct pilha *pilha, size_t inicio, size_t fim) {
     struct nodo *novo;
 
-	novo = malloc(sizeof(struct nodo));
+    novo = (struct nodo*)malloc(sizeof(struct nodo));
+    if (novo == NULL)
+        return 0;
 
-	if (novo == NULL)
-		return 0;
+    novo->inicio = inicio;
+    novo->fim = fim;
+    novo->prox = pilha->topo;
+    pilha->topo = novo;
+    (pilha->tamanho)++;
 
-	novo->chave = dado;
-	novo->prox = pilha->topo;
-	pilha->topo = novo;
-	(pilha->tamanho)++;
-	
-	return 1;
+    return 1;
 }
 
-size_t desempilhar (struct pilha *pilha, size_t *dado){
+size_t desempilhar(struct pilha *pilha, size_t *inicio, size_t *fim) {
     struct nodo *aux;
 
-	if (pilha_vazia(pilha))
+    if (pilha->topo == NULL){
 		return 0;
+	}
 
-	*dado = pilha->topo->chave;
 	aux = pilha->topo;
-	pilha->topo = pilha->topo->prox;
-	(pilha->tamanho)--;
-	free(aux);
-	aux = NULL;
-
-	return 1;
+    *inicio = aux->inicio;
+    *fim = aux->fim;
+    pilha->topo = aux->prox;
+    free(aux);
+    (pilha->tamanho)--;
+    
+    return 1;
 }
 
-size_t pilha_topo (struct pilha *pilha, size_t *dado){
-
-	if (pilha_vazia(pilha))
-		return 0;
-
-	*dado = pilha->topo->chave;
-
-	return 1;
-}
-
-size_t pilha_tamanho (struct pilha *pilha){
+size_t pilha_tamanho(struct pilha *pilha) {
     return pilha->tamanho;
 }
 
-size_t pilha_vazia (struct pilha *pilha){
-    if (pilha->tamanho == 0)
-		return 1;
-	return 0;
+size_t pilha_vazia(struct pilha *pilha) {
+    return pilha->tamanho == 0;
 }
