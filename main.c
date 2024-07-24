@@ -57,8 +57,8 @@ int main() {
     int caso;
     
     srand(0); /*inicia a semente randomica*/
-    tamVetor = 1000; 
-    caso = 1; /* Define tipo de oordenação do vetor */
+    tamVetor = 10000; 
+    caso = 1; /* Define tipo de ordenação do vetor */
 
     /* Aloca memória para o vetor */
     int* vetor = (int*)malloc(tamVetor * sizeof(int));

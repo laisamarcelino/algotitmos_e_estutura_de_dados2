@@ -122,7 +122,6 @@ void quickSortAuxiliar(int vetor[], size_t a, size_t b, uint64_t *numComp){
     if (a >= b)
         return;
 
-    /*(*numComp)++;*/
     m = particionar(vetor, a, b, numComp); 
 
     /* Verifica para evitar acesso inválido a memória*/
